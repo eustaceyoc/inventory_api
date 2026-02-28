@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k17h+zf0-hsy&$uxz$0+kozuz3b*jd2h9n6y-o_4)1bxb5l5h='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'inventory',
     'users',
     'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
+
+LOGIN_REQUIRED_IGNORE_PATHS = [
+    r'^swagger/$',
+    r'^redoc/$',
+    r'^swagger\.json$',
+    r'^swagger\.yaml$',
+]
